@@ -15,7 +15,13 @@ sqlalchemy = "^2.0.20"
 loguru = "^0.7.0"
 pydantic = "^2.3.0"
 pydantic-settings = "^2.0.3"
+alembic = "^1.11.3"
+apscheduler = "^3.10.4"
 
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.285"
+black = "^23.7.0"
 
 [build-system]
 requires = ["poetry-core"]
