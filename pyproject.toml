@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "smedia-bot"
+version = "0.1.0"
+description = ""
+authors = ["Ilya Kuchmenko <42113015+ilyahahaha@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyrogram = "^2.0.106"
+tgcrypto = "^1.2.5"
+asyncpg = "^0.28.0"
+sqlalchemy = "^2.0.20"
+loguru = "^0.7.0"
+pydantic = "^2.3.0"
+pydantic-settings = "^2.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
