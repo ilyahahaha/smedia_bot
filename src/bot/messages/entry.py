@@ -1,15 +1,17 @@
+from random import randint
+
 from loguru import logger
-from pyrogram import Client, filters
+from pyrogram import filters, Client
 from pyrogram.types import Message
 
+from src import scheduler
 from src.bot.jobs.welcome import welcome
-from src.common.database import async_session
-from src.main import scheduler
-from src.models.user import User
+from src.database import async_session
+from src.models import User
 
 
 @Client.on_message(~filters.me & filters.private)
-async def any_message(_, message: Message) -> None:
+async def entry(_, message: Message) -> None:
     logger.info(
         f"Got message from user '{message.text}' (UserID: {message.from_user.id})"
     )
@@ -33,7 +35,7 @@ async def any_message(_, message: Message) -> None:
                 scheduler.add_job(
                     welcome,
                     "interval",
-                    seconds=5,
+                    minutes=10,
                     kwargs={"message": message},
                 )
 
@@ -43,4 +45,7 @@ async def any_message(_, message: Message) -> None:
 
             logger.info(f"New user created! (UserID: {message.from_user.id})")
 
-    await message.reply_text("Добрый день!")
+    await message.reply_photo(
+        photo=f"https://loremflickr.com/640/480?{randint(1, 999999)}",
+        caption="Подготовила для вас материал",
+    )
