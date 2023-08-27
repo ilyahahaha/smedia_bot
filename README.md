@@ -10,6 +10,7 @@
 - SQLAlchemy
 - Alembic
 - APScheduler
+- Loguru
 - Docker
 
 ------------
