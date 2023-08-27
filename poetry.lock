@@ -20,21 +20,6 @@ typing-extensions = ">=4"
 tz = ["python-dateutil"]
 
 [[package]]
-name = "alembic-postgresql-enum"
-version = "0.1.5"
-description = "Alembic autogenerate support for creation, alteration and deletion of enums"
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "alembic_postgresql_enum-0.1.5-py3-none-any.whl", hash = "sha256:31f3d3df2e466011965d17d3d66198d265b0ff97423f93a35042fe283b56c44c"},
-    {file = "alembic_postgresql_enum-0.1.5.tar.gz", hash = "sha256:55c85e87fbd5b9348ab8f58ae7eb24a579eca26e536b0da2e68261724eb50710"},
-]
-
-[package.dependencies]
-alembic = ">=1.7"
-SQLAlchemy = ">=1.4"
-
-[[package]]
 name = "annotated-types"
 version = "0.5.0"
 description = "Reusable constraint types to use with typing.Annotated"
@@ -882,4 +867,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8072ebfcb952ff0298618823ce032766da2434170eaa575620023d26a8d33329"
+content-hash = "c8eaf9c895a0ce2d0939b2481cae297d1c7d31f4a00260226951d35647596076"

@@ -1,6 +1,5 @@
 import asyncio
 
-import alembic_postgresql_enum  # noqa
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 

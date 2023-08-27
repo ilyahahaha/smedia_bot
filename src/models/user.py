@@ -1,18 +1,12 @@
 from datetime import date
-from enum import Enum
 from typing import Optional, Self
 
 from sqlalchemy import select, Date
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.sql import expression
 
 from src.models.base import Base
-
-
-class UserStage(Enum):
-    WELCOME = "welcome"
-    WAITING_FOR_MATERIAL = "waiting_for_material"
-    IDLE = "idle"
 
 
 class User(Base):
@@ -20,7 +14,9 @@ class User(Base):
     first_name: Mapped[str]
     last_name: Mapped[Optional[str]]
     username: Mapped[Optional[str]]
-    current_stage: Mapped[UserStage] = mapped_column(default=UserStage.WELCOME)
+    is_paused: Mapped[bool] = mapped_column(
+        server_default=expression.false(), default=False
+    )
     created_at: Mapped[date] = mapped_column(Date(), default=date.today())
 
     @classmethod

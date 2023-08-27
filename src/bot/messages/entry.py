@@ -1,20 +1,16 @@
-from random import randint
-
 from loguru import logger
 from pyrogram import filters, Client
 from pyrogram.types import Message
 
-from src import scheduler
-from src.bot.jobs.welcome import welcome
+from src import scheduler, app
+from src.bot.messages.welcome import welcome as welcome_message
 from src.database import async_session
 from src.models import User
 
 
 @Client.on_message(~filters.me & filters.private)
 async def entry(_, message: Message) -> None:
-    logger.info(
-        f"Got message from user '{message.text}' (UserID: {message.from_user.id})"
-    )
+    logger.info(f"New message: '{message.text}' (UserID: {message.from_user.id})")
 
     async with async_session() as session:
         user = await User.find_by_user_id(session, str(message.from_user.id))
@@ -33,19 +29,41 @@ async def entry(_, message: Message) -> None:
 
             try:
                 scheduler.add_job(
-                    welcome,
-                    "interval",
-                    minutes=10,
+                    welcome_message,
+                    id=f"welcome-{user.user_id}",
+                    trigger="interval",
+                    minutes=1,
                     kwargs={"message": message},
+                )
+
+                logger.success(
+                    f"Scheduled welcome job! (UserID: {message.from_user.id})"
                 )
 
                 await user.save(session)
             except Exception as ex:
                 logger.exception(f"{ex} (UserID: {message.from_user.id})")
 
-            logger.info(f"New user created! (UserID: {message.from_user.id})")
+            logger.success(f"New user created! (UserID: {message.from_user.id})")
 
-    await message.reply_photo(
-        photo=f"https://loremflickr.com/640/480?{randint(1, 999999)}",
-        caption="Подготовила для вас материал",
-    )
+        # Проверка на триггер возобновления (в основном, для теста)
+        if user.is_paused:
+            if message.text.lower() != "привет!":
+                return await app.send_message(
+                    chat_id=message.chat.id,
+                    text="Воронка закончена...\nДля запуска с первого этапа, напишите: 'Привет!'",
+                )
+
+            user.is_paused = False
+            await user.save(session)
+
+            scheduler.add_job(
+                welcome_message,
+                id=f"welcome-{user.user_id}",
+                trigger="interval",
+                minutes=1,
+                kwargs={"message": message},
+            )
+
+            logger.success(f"User unpaused! (UserID: {message.from_user.id})")
+            logger.success(f"Scheduled welcome job! (UserID: {message.from_user.id})")

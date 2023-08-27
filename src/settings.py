@@ -9,7 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 @lru_cache(maxsize=None)
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=Path(path.dirname(path.dirname(__file__))).parent / ".env",
+        env_file=Path(path.dirname(path.dirname(__file__))) / ".env",
         env_file_encoding="utf-8",
     )
 
