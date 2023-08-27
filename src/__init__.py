@@ -15,7 +15,11 @@ app = Client(
     in_memory=True,
     plugins=dict(root="bot"),
 )
-scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
-scheduler_store = SQLAlchemyJobStore(url="postgresql://postgres:@127.0.0.1:5432/smedia")
 
+scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
+scheduler_store = SQLAlchemyJobStore(
+    url=settings.postgres_url.unicode_string().replace(
+        "postgresql+asyncpg", "postgresql"
+    )
+)
 scheduler.add_jobstore(scheduler_store)

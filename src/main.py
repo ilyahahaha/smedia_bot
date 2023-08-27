@@ -6,9 +6,11 @@ from sys import argv
 
 from alembic import command
 from alembic.config import Config
+from loguru import logger
 from pyrogram import Client
 
-from src import scheduler, app, Settings
+from src import scheduler, app
+from src.common.settings import Settings
 
 settings = Settings()
 alembic_cfg = Config(Path(settings.base_dir).parent / "alembic.ini")
@@ -68,4 +70,6 @@ if __name__ == "__main__":
             command.upgrade(alembic_cfg, "head")
         case Commands.START:
             scheduler.start()
+            logger.success("Scheduler started!")
+
             app.run()

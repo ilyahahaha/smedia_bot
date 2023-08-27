@@ -2,7 +2,7 @@ from functools import lru_cache
 from os import path
 from pathlib import Path
 
-from pydantic import PostgresDsn, DirectoryPath
+from pydantic import DirectoryPath, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,8 +11,7 @@ class Settings(BaseSettings):
     base_dir: DirectoryPath = Path(path.dirname(path.dirname(__file__)))
 
     model_config = SettingsConfigDict(
-        env_file=base_dir.parent / ".env",
-        env_file_encoding="utf-8",
+        env_file=base_dir.parent / ".env", env_file_encoding="utf-8", extra="allow"
     )
 
     postgres_url: PostgresDsn
