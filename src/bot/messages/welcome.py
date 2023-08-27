@@ -16,7 +16,7 @@ async def welcome(message: Message) -> None:
         material_message,
         id=f"material-{message.from_user.id}",
         trigger="interval",
-        minutes=1,
+        minutes=90,
         kwargs={"message": message},
     )
 

@@ -32,7 +32,7 @@ async def entry(_, message: Message) -> None:
                     welcome_message,
                     id=f"welcome-{user.user_id}",
                     trigger="interval",
-                    minutes=1,
+                    minutes=10,
                     kwargs={"message": message},
                 )
 
@@ -61,7 +61,7 @@ async def entry(_, message: Message) -> None:
                 welcome_message,
                 id=f"welcome-{user.user_id}",
                 trigger="interval",
-                minutes=1,
+                minutes=10,
                 kwargs={"message": message},
             )
 

@@ -28,7 +28,7 @@ async def material(message: Message) -> None:
         idle_message,
         id=f"idle-{message.from_user.id}",
         trigger="interval",
-        minutes=1,
+        minutes=120,
         kwargs={"message": message},
     )
 

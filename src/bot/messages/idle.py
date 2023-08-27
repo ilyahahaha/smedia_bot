@@ -43,7 +43,7 @@ async def idle(message: Message) -> None:
         welcome_message,
         id=f"welcome-{message.from_user.id}",
         trigger="interval",
-        minutes=1,
+        minutes=10,
         kwargs={"message": message},
     )
 
