@@ -2,13 +2,17 @@ from loguru import logger
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from src.bot.jobs.welcome import welcome
 from src.common.database import async_session
+from src.main import scheduler
 from src.models.user import User
 
 
 @Client.on_message(~filters.me & filters.private)
 async def any_message(_, message: Message) -> None:
-    logger.info(f"Got message from user (UserID: {message.from_user.id})")
+    logger.info(
+        f"Got message from user '{message.text}' (UserID: {message.from_user.id})"
+    )
 
     async with async_session() as session:
         user = await User.find_by_user_id(session, str(message.from_user.id))
@@ -26,12 +30,17 @@ async def any_message(_, message: Message) -> None:
             )
 
             try:
+                scheduler.add_job(
+                    welcome,
+                    "interval",
+                    seconds=5,
+                    kwargs={"message": message},
+                )
+
                 await user.save(session)
             except Exception as ex:
                 logger.exception(f"{ex} (UserID: {message.from_user.id})")
 
             logger.info(f"New user created! (UserID: {message.from_user.id})")
 
-    logger.info(f"User found. (UserID: {message.from_user.id})")
-
-    await message.reply_text(user.user_id)
+    await message.reply_text("Добрый день!")
