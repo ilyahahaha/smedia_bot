@@ -4,7 +4,7 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 from sqlalchemy import select
 
-from src.database import async_session
+from src.common.database import async_session
 from src.models.user import User
 
 

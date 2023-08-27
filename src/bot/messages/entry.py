@@ -4,7 +4,7 @@ from pyrogram.types import Message
 
 from src import scheduler, app
 from src.bot.messages.welcome import welcome as welcome_message
-from src.database import async_session
+from src.common.database import async_session
 from src.models import User
 
 

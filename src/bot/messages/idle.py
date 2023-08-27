@@ -2,7 +2,7 @@ from loguru import logger
 from pyrogram.types import Message
 
 from src import app, scheduler
-from src.database import async_session
+from src.common.database import async_session
 from src.models import User
 
 
